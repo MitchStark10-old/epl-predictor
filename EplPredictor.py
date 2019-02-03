@@ -50,10 +50,11 @@ for teamIndex, statsRow in enumerate(statsRowList):
 
 print("here-------------------")
 for index, team in enumerate(teams):
-	print(team.toString())
-	print('--------------------')
-	UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
-    #TODO: Only add to database when ready
-    # if not GameDao.checkIfGameExists(newGame, databaseConnector):
-    #         GameDao.insertNewGame(newGame, databaseConnector)
-    #         print("\n\n\n")
+	if index == 0:
+		print(team.toString())
+		print('--------------------')
+		UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
+		#TODO: Only add to database when ready
+		# if not GameDao.checkIfGameExists(newGame, databaseConnector):
+		#         GameDao.insertNewGame(newGame, databaseConnector)
+		#         print("\n\n\n")
