@@ -30,9 +30,4 @@ def retrieveUpcomingGame(espnId, databaseConnector):
         elif index == 5:
             newGame.setCompetition(value.contents[0].contents[0])
     print(newGame.toString())
-
-    if not GameDao.checkIfGameExists(newGame, databaseConnector):
-        GameDao.insertNewGame(newGame, databaseConnector)
-        print("\n\n\n")
-
-
+    return newGame
