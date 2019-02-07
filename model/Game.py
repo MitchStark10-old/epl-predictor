@@ -24,7 +24,16 @@ class Game:
         initialDateString = str(date)
         matches = re.search("\w{3}, (\w{3}) (\d{1,2})", initialDateString)
         if matches is None:
-            print("Error with date: " + date)
+            #Good old ESPN with some inconsistent software. Sometimes
+            #the date returned is in the format Wed, 24 Oct
+            matches = re.search("\w{3}, (\d{1,2}) (\w{3}", initialDateString)
+            if matches is None:
+                print("Error with date: " + date)
+            else:
+                month = matches[2]
+                day = matches[1]
+                year = Date.determineYear(month, day)
+                self.date = str(year + "-" + month + "-" + day)
         else:
             month = matches[1]
             day = matches[2]
