@@ -26,7 +26,7 @@ class Game:
         if matches is None:
             #Good old ESPN with some inconsistent software. Sometimes
             #the date returned is in the format Wed, 24 Oct
-            matches = re.search("\w{3}, (\d{1,2}) (\w{3}", initialDateString)
+            matches = re.search("\w{3}, (\d{1,2}) (\w{3})", initialDateString)
             if matches is None:
                 print("Error with date: " + date)
             else:

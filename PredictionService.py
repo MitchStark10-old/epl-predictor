@@ -1,6 +1,6 @@
 class PredictionService:
 
-    statServices = []
+    statServices = [ExhaustionStat()]
 
     #Method Logic: Loop through each statService with the game to get a value
     #Positive value will favor the home team
