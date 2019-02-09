@@ -14,6 +14,10 @@ from model.Team import Team
 import UpcomingGameScraper
 from dao.TeamDao import TeamDao
 from utilities.DatabaseConnection import DatabaseConnection
+from PredictionService import PredictionService
+
+#Init Prediction Service
+predictionService = PredictionService()
 
 #Setup beautiful soup
 response = urllib2.urlopen('http://www.espn.com/soccer/table/_/league/eng.1')
@@ -56,6 +60,7 @@ for index, team in enumerate(teams):
 			print('--------------------')
 			upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
 			print(upcomingGame.toString())
+			predictionService.predictGame(upcomingGame)
 # 			#TODO: Only add to database when ready
 # 			# if not GameDao.checkIfGameExists(newGame, databaseConnector):
 # 			#         GameDao.insertNewGame(newGame, databaseConnector)

@@ -1,3 +1,5 @@
+from stats.ExhaustionStat import ExhaustionStat
+
 class PredictionService:
 
     statServices = [ExhaustionStat()]
@@ -6,5 +8,5 @@ class PredictionService:
     #Positive value will favor the home team
     #Negative value will favor the away team
     #Final magnitude should represent goal differential
-    def predictGame(game):
+    def predictGame(self, game):
         print("Done")
