@@ -1,3 +1,6 @@
+from dateutil import parser
+from datetime import datetime, timedelta
+
 class ExhaustionStat:
     weight = 0.05
 
@@ -24,11 +27,17 @@ class ExhaustionStat:
             raise
         gameDateList = cursor.fetchall()
 
-        for gameDate in gameDateList:
-            print("Game date: " + str(gameDate))
-            #Parse game date and check if it was in the past week
+
+        gamesInLastWeek = 0
+        oneWeekAgo = datetime.now() - timedelta(days = 7)
+        for gameDateString in gameDateList:
+            gameDate = self.parseGameDateString(gameDateString[0])
+            if gameDate > oneWeekAgo:
+                gamesInLastWeek += 1
+                print("Game date: " + str(gameDateString))
             
-        return 0
+        print(str(gamesInLastWeek) + " games played in last week for team: " + teamId)
+        return gamesInLastWeek
         
     def getWeightedStat(self, game, databaseConnection):
         homeTeamGames = self.getStat(game.getHomeTeamId(), databaseConnection)
@@ -36,3 +45,7 @@ class ExhaustionStat:
 
         statScore = (awayTeamGames - homeTeamGames) * ExhaustionStat.weight
         return statScore
+
+
+    def parseGameDateString(self, gameDateString):
+        return parser.parse(gameDateString)
