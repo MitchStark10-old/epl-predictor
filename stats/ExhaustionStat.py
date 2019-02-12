@@ -1,21 +1,19 @@
 class ExhaustionStat:
-
-    #TODO: Fix the weight value
-    weight = 2
+    weight = 0.05
 
     statQuery = ("SELECT GameDate "
                 "FROM EspnGame "
-                "WHERE (HomeTeamId = %(espnTeamId)s OR AwayTeamId = %(espnTeamId)s);")
+                "WHERE (HomeTeamId = %s OR AwayTeamId = %s);")
 
-    def getStat(game, databaseConnection):
+    def getStat(self, teamId, databaseConnector):
         dbConnection = databaseConnector.retrieveDbConnection()
         cursor = dbConnection.cursor()
-        print("Running Insert New Game: ")
-        print(game.__dict__)
+        print("Running Game Date Query")
+        print(teamId)
         print("-------------------------")
         try:
-            cursor.execute(statQuery, game.__dict__)
-            dbConnection.commit()
+            input = (teamId, teamId)
+            cursor.execute(self.statQuery, input)
             print("Completed----------------")
             print(cursor.statement)
             print("--------------------------")
@@ -24,7 +22,17 @@ class ExhaustionStat:
             print(cursor.statement)
             print("---------------------------")
             raise
-        cursor.close()
+        gameDateList = cursor.fetchall()
+
+        for gameDate in gameDateList:
+            print("Game date: " + str(gameDate))
+            #Parse game date and check if it was in the past week
+            
+        return 0
         
-    def getWeightedStat():
-        return getStat() * weight
+    def getWeightedStat(self, game, databaseConnection):
+        homeTeamGames = self.getStat(game.getHomeTeamId(), databaseConnection)
+        awayTeamGames = self.getStat(game.getAwayTeamId(), databaseConnection)
+
+        statScore = (awayTeamGames - homeTeamGames) * ExhaustionStat.weight
+        return statScore

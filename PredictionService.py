@@ -8,5 +8,8 @@ class PredictionService:
     #Positive value will favor the home team
     #Negative value will favor the away team
     #Final magnitude should represent goal differential
-    def predictGame(self, game):
-        print("Done")
+    def predictGame(self, game, databaseConnector):
+        goalDifferential = 0
+        for statService in self.statServices:
+            goalDifferential += statService.getWeightedStat(game, databaseConnector)
+        return goalDifferential
