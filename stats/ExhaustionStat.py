@@ -2,7 +2,7 @@ from dateutil import parser
 from datetime import datetime, timedelta
 
 class ExhaustionStat:
-    weight = 0.05
+    weight = 0.1
 
     statQuery = ("SELECT GameDate "
                 "FROM EspnGame "

@@ -13,4 +13,5 @@ class PredictionService:
         goalDifferential = 0
         for statService in self.statServices:
             goalDifferential += statService.getWeightedStat(game, databaseConnector)
+        print("Goal Differential for Game " + game.getEspnGameId() + ": " + str(goalDifferential))
         return goalDifferential

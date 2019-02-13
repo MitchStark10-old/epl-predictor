@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 class PossessionStat:
-    weight = Decimal(0.3)
+    weight = Decimal(0.05)
 
     statQuery = ("SELECT AVG(PossessionPercent) "
                 "FROM TeamGame "
