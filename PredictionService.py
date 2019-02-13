@@ -1,8 +1,9 @@
 from stats.ExhaustionStat import ExhaustionStat
+from stats.PossessionStat import PossessionStat
 
 class PredictionService:
 
-    statServices = [ExhaustionStat()]
+    statServices = [ExhaustionStat(), PossessionStat()]
 
     #Method Logic: Loop through each statService with the game to get a value
     #Positive value will favor the home team
