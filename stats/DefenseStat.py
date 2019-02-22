@@ -27,7 +27,7 @@ class DefenseStat:
             raise
         
         defense = cursor.fetchone()[0]
-        print(str(defense) + "% possession for team: " + teamId)
+        print(str(defense) + " defensive value for team: " + teamId)
 
         return defense
         
@@ -36,5 +36,6 @@ class DefenseStat:
         homeTeamDefense = self.getStat(game.getHomeTeamId(), databaseConnection)
         awayTeamDefense = self.getStat(game.getAwayTeamId(), databaseConnection)
 
-        statScore = (homeTeamDefense - homeTeamDefense) * self.weight
+        statScore = (homeTeamDefense - awayTeamDefense) * self.weight * -1
+        print("Final Defense Stat Score: " + str(statScore))
         return float(statScore)

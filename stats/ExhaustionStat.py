@@ -44,6 +44,7 @@ class ExhaustionStat:
         awayTeamGames = self.getStat(game.getAwayTeamId(), databaseConnection)
 
         statScore = (awayTeamGames - homeTeamGames) * ExhaustionStat.weight
+        print("Final Exhaustion Stat Score: " + str(statScore))
         return statScore
 
 

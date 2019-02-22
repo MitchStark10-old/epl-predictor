@@ -1,9 +1,9 @@
 from decimal import Decimal
 
-class AttackStat:
-    weight = Decimal(0.25)
+class CounterAttackStat:
+    weight = 1
 
-    statQuery = ("SELECT AVG(ShotsOnTarget) "
+    statQuery = ("SELECT AVG(ShotsOnTarget) / AVG(PossessionPercent) "
                 "FROM TeamGame "
                 "WHERE EspnTeamId = %s;")
 
@@ -24,15 +24,16 @@ class AttackStat:
             print("---------------------------")
             raise
         
-        shotsOnTarget = cursor.fetchone()[0]
-        print(str(shotsOnTarget) + " average shots on target for team: " + teamId)
-        return shotsOnTarget
+        counterAttack = cursor.fetchone()[0]
+        print(str(counterAttack) + " counter attack value for team: " + teamId)
+
+        return counterAttack
         
 
     def getWeightedStat(self, game, databaseConnection):
-        homeTeamAttack = self.getStat(game.getHomeTeamId(), databaseConnection)
-        awayTeamAttack = self.getStat(game.getAwayTeamId(), databaseConnection)
+        homeTeamCounterAttack = self.getStat(game.getHomeTeamId(), databaseConnection)
+        awayTeamCounterAttack = self.getStat(game.getAwayTeamId(), databaseConnection)
 
-        statScore = (homeTeamAttack - awayTeamAttack) * self.weight
-        print("Final Attack Stat Score: " + str(statScore))
+        statScore = (homeTeamCounterAttack - awayTeamCounterAttack) * self.weight
+        print("Final Counter Attack Stat Score: " + str(statScore))
         return float(statScore)

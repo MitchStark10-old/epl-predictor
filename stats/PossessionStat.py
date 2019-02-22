@@ -35,4 +35,5 @@ class PossessionStat:
         awayTeamAvgPossession = self.getStat(game.getAwayTeamId(), databaseConnection)
 
         statScore = (homeTeamAvgPossession - awayTeamAvgPossession) * self.weight
+        print("Final Possesion Stat Score: " + str(statScore))
         return float(statScore)
