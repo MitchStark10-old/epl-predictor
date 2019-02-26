@@ -60,11 +60,21 @@ for index, team in enumerate(teams):
 	print('--------------------')
 	upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
 	print(upcomingGame.toString())
-	goalDifferential = predictionService.predictGame(upcomingGame, databaseConnector)
+	goalDifferential = int(round(predictionService.predictGame(upcomingGame, databaseConnector)))
+
+	if goalDifferential > 0:
+		upcomingGame.setPredictedHomeTeamScore(goalDifferential)
+		upcomingGame.setPredictedAwayTeamScore(0)
+	elif goalDifferential == 0:
+		upcomingGame.setPredictedHomeTeamScore(0)
+		upcomingGame.setPredictedAwayTeamScore(0)
+	else:
+		upcomingGame.setPredictedHomeTeamScore(0)
+		upcomingGame.setPredictedAwayTeamScore(goalDifferential)
+
 	if not GameDao.checkIfGameExists(upcomingGame, databaseConnector):
 			GameDao.insertNewGame(upcomingGame, databaseConnector)
 			print("\n\n\n")
 	else:
 		GameDao.updateGame(upcomingGame, databaseConnector)
-		print("TODO: Add in query for game update")
 
