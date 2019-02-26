@@ -15,6 +15,7 @@ import UpcomingGameScraper
 from dao.TeamDao import TeamDao
 from utilities.DatabaseConnection import DatabaseConnection
 from PredictionService import PredictionService
+from dao.GameDao import GameDao
 
 #Init Prediction Service
 predictionService = PredictionService()
@@ -55,14 +56,15 @@ for teamIndex, statsRow in enumerate(statsRowList):
 print("here-------------------")
 #TODO: This is the eventual goal: looping through all upcoming games and predicting them. Only do this when prediction analysis is ready
 for index, team in enumerate(teams):
-	if index == 0:
-			print(team.toString())
-			print('--------------------')
-			upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
-			print(upcomingGame.toString())
-			goalDifferential = predictionService.predictGame(upcomingGame, databaseConnector)
-# 			#TODO: Only add to database when ready
-# 			# if not GameDao.checkIfGameExists(newGame, databaseConnector):
-# 			#         GameDao.insertNewGame(newGame, databaseConnector)
-# 			#         print("\n\n\n")
+	print(team.toString())
+	print('--------------------')
+	upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
+	print(upcomingGame.toString())
+	goalDifferential = predictionService.predictGame(upcomingGame, databaseConnector)
+	if not GameDao.checkIfGameExists(upcomingGame, databaseConnector):
+			GameDao.insertNewGame(upcomingGame, databaseConnector)
+			print("\n\n\n")
+	else:
+		GameDao.updateGame(upcomingGame, databaseConnector)
+		print("TODO: Add in query for game update")
 

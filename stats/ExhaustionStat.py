@@ -31,10 +31,12 @@ class ExhaustionStat:
         gamesInLastWeek = 0
         oneWeekAgo = datetime.now() - timedelta(days = 7)
         for gameDateString in gameDateList:
-            gameDate = self.parseGameDateString(gameDateString[0])
-            if gameDate > oneWeekAgo:
-                gamesInLastWeek += 1
-                print("Game date: " + str(gameDateString))
+            if (gameDateString[0] != ""):
+                print("Attempting to parse: " + str(gameDateString[0]))
+                gameDate = self.parseGameDateString(gameDateString[0])
+                if gameDate > oneWeekAgo:
+                    gamesInLastWeek += 1
+                    print("Game date: " + str(gameDateString))
             
         print(str(gamesInLastWeek) + " games played in last week for team: " + teamId)
         return gamesInLastWeek
@@ -49,4 +51,4 @@ class ExhaustionStat:
 
 
     def parseGameDateString(self, gameDateString):
-        return parser.parse(gameDateString)
+        return parser.parse(str(gameDateString))
