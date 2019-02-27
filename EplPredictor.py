@@ -10,12 +10,12 @@ sys.path.append('..')
 #imports
 import urllib.request as urllib2
 from bs4 import BeautifulSoup
-from model.Team import Team
+from eplpredictorcore.model.Team import Team
 import UpcomingGameScraper
-from dao.TeamDao import TeamDao
-from utilities.DatabaseConnection import DatabaseConnection
+from eplpredictorcore.dao.TeamDao import TeamDao
+from eplpredictorcore.utilities.DatabaseConnection import DatabaseConnection
 from PredictionService import PredictionService
-from dao.GameDao import GameDao
+from eplpredictorcore.dao.GameDao import GameDao
 
 #Init Prediction Service
 predictionService = PredictionService()

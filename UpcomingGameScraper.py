@@ -5,8 +5,8 @@ sys.path.append('..')
 #Imports
 import urllib.request as urllib2
 from bs4 import BeautifulSoup
-from model.Game import Game
-from dao.GameDao import GameDao
+from eplpredictorcore.model.Game import Game
+from eplpredictorcore.dao.GameDao import GameDao
 
 def retrieveUpcomingGame(espnId, databaseConnector):
     response = urllib2.urlopen('http://www.espn.com/soccer/team/fixtures/_/id/' + str(espnId) + '/league/ENG.1')

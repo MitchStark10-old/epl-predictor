@@ -1,0 +1,6 @@
+[submodule "epl-predictor-core"]
+	path = epl-predictor-core
+	url = git@github.com:MitchStark10/epl-predictor-core.git
+[submodule "eplpredictorcore"]
+	path = eplpredictorcore
+	url = git@github.com:MitchStark10/eplpredictorcore.git
