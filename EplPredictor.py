@@ -52,9 +52,7 @@ for teamIndex, statsRow in enumerate(statsRowList):
 		for index, stat in enumerate(statsList):
 				teams[teamIndex].setValueFromIndex(index, stat.contents[0].contents[0])
 		teams[teamIndex].setPlace(teamIndex + 1)
-
-print("here-------------------")
-#TODO: This is the eventual goal: looping through all upcoming games and predicting them. Only do this when prediction analysis is ready
+		
 for index, team in enumerate(teams):
 	print(team.toString())
 	print('--------------------')
