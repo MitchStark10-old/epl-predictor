@@ -17,6 +17,27 @@ from eplpredictorcore.utilities.DatabaseConnection import DatabaseConnection
 from PredictionService import PredictionService
 from eplpredictorcore.dao.GameDao import GameDao
 
+#Method Definition
+def predictGame(upcomingGame, databaseConnector):
+	print(upcomingGame.toString())
+	goalDifferential = int(round(predictionService.predictGame(upcomingGame, databaseConnector)))
+
+	if goalDifferential > 0:
+		upcomingGame.setPredictedHomeTeamScore(goalDifferential)
+		upcomingGame.setPredictedAwayTeamScore(0)
+	elif goalDifferential == 0:
+		upcomingGame.setPredictedHomeTeamScore(0)
+		upcomingGame.setPredictedAwayTeamScore(0)
+	else:
+		upcomingGame.setPredictedHomeTeamScore(0)
+		upcomingGame.setPredictedAwayTeamScore(goalDifferential * -1)
+
+	if not GameDao.checkIfGameExists(upcomingGame, databaseConnector):
+			GameDao.insertNewGame(upcomingGame, databaseConnector)
+			print("\n\n\n")
+	else:
+		GameDao.updateGame(upcomingGame, databaseConnector)
+
 #Init Prediction Service
 predictionService = PredictionService()
 
@@ -56,23 +77,14 @@ for teamIndex, statsRow in enumerate(statsRowList):
 for index, team in enumerate(teams):
 	print(team.toString())
 	print('--------------------')
-	upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
-	print(upcomingGame.toString())
-	goalDifferential = int(round(predictionService.predictGame(upcomingGame, databaseConnector)))
 
-	if goalDifferential > 0:
-		upcomingGame.setPredictedHomeTeamScore(goalDifferential)
-		upcomingGame.setPredictedAwayTeamScore(0)
-	elif goalDifferential == 0:
-		upcomingGame.setPredictedHomeTeamScore(0)
-		upcomingGame.setPredictedAwayTeamScore(0)
+	testRun = True
+	if not testRun:
+		upcomingGame = UpcomingGameScraper.retrieveUpcomingGame(team.getEspnId(), databaseConnector)
+		predictGame(upcomingGame, databaseConnector)
 	else:
-		upcomingGame.setPredictedHomeTeamScore(0)
-		upcomingGame.setPredictedAwayTeamScore(goalDifferential)
-
-	if not GameDao.checkIfGameExists(upcomingGame, databaseConnector):
-			GameDao.insertNewGame(upcomingGame, databaseConnector)
-			print("\n\n\n")
-	else:
-		GameDao.updateGame(upcomingGame, databaseConnector)
-
+		#Retrieve all games from table
+		gameList = GameDao.retrieveAllEplGamesForTeam(team.getEspnId(), databaseConnector)
+		#Loop through and predict each
+		for game in gameList:
+			predictGame(game, databaseConnector)
